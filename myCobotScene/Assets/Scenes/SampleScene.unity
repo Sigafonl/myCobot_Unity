@@ -3404,9 +3404,9 @@ MonoBehaviour:
   stiffness: 1000000
   damping: 10000
   forceLimit: 10000
-  speed: 20
+  speed: 30
   torque: 100
-  acceleration: 5
+  acceleration: 10
   highLightColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1788977672
 MonoBehaviour:
