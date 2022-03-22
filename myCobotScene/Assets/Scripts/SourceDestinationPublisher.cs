@@ -11,11 +11,11 @@ public class SourceDestinationPublisher : MonoBehaviour
     const int k_NumRobotJoints = 6;
 
     public static readonly string[] LinkNames =
-        { "base/link1", "/link2", "/link3", "/link4", "/link5", "/link6" };
+         { "base/link1", "/link2", "/link3", "/link4", "/link5", "/link6" };
 
     // Variables required for ROS communication
     [SerializeField]
-    string m_TopicName = "/mycobot_joints";
+    string m_TopicName = "/niryo_joints";
 
     [SerializeField]
     GameObject m_NiryoOne;
