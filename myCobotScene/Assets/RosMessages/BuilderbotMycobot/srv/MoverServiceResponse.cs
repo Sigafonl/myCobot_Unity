@@ -13,35 +13,34 @@ namespace RosMessageTypes.BuilderbotMycobot
         public const string k_RosMessageName = "builderbot_mycobot/MoverService";
         public override string RosMessageName => k_RosMessageName;
 
-        public Moveit.RobotTrajectoryMsg[] trajectories;
+        public Moveit.RobotTrajectoryMsg trajectory;
 
         public MoverServiceResponse()
         {
-            this.trajectories = new Moveit.RobotTrajectoryMsg[0];
+            this.trajectory = new Moveit.RobotTrajectoryMsg();
         }
 
-        public MoverServiceResponse(Moveit.RobotTrajectoryMsg[] trajectories)
+        public MoverServiceResponse(Moveit.RobotTrajectoryMsg trajectory)
         {
-            this.trajectories = trajectories;
+            this.trajectory = trajectory;
         }
 
         public static MoverServiceResponse Deserialize(MessageDeserializer deserializer) => new MoverServiceResponse(deserializer);
 
         private MoverServiceResponse(MessageDeserializer deserializer)
         {
-            deserializer.Read(out this.trajectories, Moveit.RobotTrajectoryMsg.Deserialize, deserializer.ReadLength());
+            this.trajectory = Moveit.RobotTrajectoryMsg.Deserialize(deserializer);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
-            serializer.WriteLength(this.trajectories);
-            serializer.Write(this.trajectories);
+            serializer.Write(this.trajectory);
         }
 
         public override string ToString()
         {
             return "MoverServiceResponse: " +
-            "\ntrajectories: " + System.String.Join(", ", trajectories.ToList());
+            "\ntrajectory: " + trajectory.ToString();
         }
 
 #if UNITY_EDITOR

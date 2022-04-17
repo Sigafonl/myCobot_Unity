@@ -14,21 +14,18 @@ namespace RosMessageTypes.BuilderbotMycobot
         public override string RosMessageName => k_RosMessageName;
 
         public double[] joints;
-        public Geometry.PoseMsg pick_pose;
-        public Geometry.PoseMsg place_pose;
+        public Geometry.PoseMsg goal_pose;
 
         public MyCobotMoveitJointsMsg()
         {
             this.joints = new double[6];
-            this.pick_pose = new Geometry.PoseMsg();
-            this.place_pose = new Geometry.PoseMsg();
+            this.goal_pose = new Geometry.PoseMsg();
         }
 
-        public MyCobotMoveitJointsMsg(double[] joints, Geometry.PoseMsg pick_pose, Geometry.PoseMsg place_pose)
+        public MyCobotMoveitJointsMsg(double[] joints, Geometry.PoseMsg goal_pose)
         {
             this.joints = joints;
-            this.pick_pose = pick_pose;
-            this.place_pose = place_pose;
+            this.goal_pose = goal_pose;
         }
 
         public static MyCobotMoveitJointsMsg Deserialize(MessageDeserializer deserializer) => new MyCobotMoveitJointsMsg(deserializer);
@@ -36,23 +33,20 @@ namespace RosMessageTypes.BuilderbotMycobot
         private MyCobotMoveitJointsMsg(MessageDeserializer deserializer)
         {
             deserializer.Read(out this.joints, sizeof(double), 6);
-            this.pick_pose = Geometry.PoseMsg.Deserialize(deserializer);
-            this.place_pose = Geometry.PoseMsg.Deserialize(deserializer);
+            this.goal_pose = Geometry.PoseMsg.Deserialize(deserializer);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
             serializer.Write(this.joints);
-            serializer.Write(this.pick_pose);
-            serializer.Write(this.place_pose);
+            serializer.Write(this.goal_pose);
         }
 
         public override string ToString()
         {
             return "MyCobotMoveitJointsMsg: " +
             "\njoints: " + System.String.Join(", ", joints.ToList()) +
-            "\npick_pose: " + pick_pose.ToString() +
-            "\nplace_pose: " + place_pose.ToString();
+            "\ngoal_pose: " + goal_pose.ToString();
         }
 
 #if UNITY_EDITOR

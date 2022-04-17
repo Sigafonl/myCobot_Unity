@@ -1,6 +1,6 @@
 using System;
 using RosMessageTypes.Geometry;
-using RosMessageTypes.NiryoMoveit;
+using RosMessageTypes.BuilderbotMycobot;
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 using Unity.Robotics.UrdfImporter;
@@ -15,14 +15,14 @@ public class SourceDestinationPublisher : MonoBehaviour
 
     // Variables required for ROS communication
     [SerializeField]
-    string m_TopicName = "/niryo_joints";
+    string m_TopicName = "/mycobot_joints";
 
     [SerializeField]
-    GameObject m_NiryoOne;
+    GameObject m_MyCobot;
     [SerializeField]
     GameObject m_Target;
-    [SerializeField]
-    GameObject m_TargetPlacement;
+    // [SerializeField]
+    // GameObject m_TargetPlacement;
     readonly Quaternion m_PickOrientation = Quaternion.Euler(90, 90, 0);
 
     // Robot Joints
@@ -35,7 +35,7 @@ public class SourceDestinationPublisher : MonoBehaviour
     {
         // Get ROS connection static instance
         m_Ros = ROSConnection.GetOrCreateInstance();
-        m_Ros.RegisterPublisher<NiryoMoveitJointsMsg>(m_TopicName);
+        m_Ros.RegisterPublisher<MyCobotMoveitJointsMsg>(m_TopicName);
 
         m_JointArticulationBodies = new UrdfJointRevolute[k_NumRobotJoints];
 
@@ -43,13 +43,13 @@ public class SourceDestinationPublisher : MonoBehaviour
         for (var i = 0; i < k_NumRobotJoints; i++)
         {
             linkName += LinkNames[i];
-            m_JointArticulationBodies[i] = m_NiryoOne.transform.Find(linkName).GetComponent<UrdfJointRevolute>();
+            m_JointArticulationBodies[i] = m_MyCobot.transform.Find(linkName).GetComponent<UrdfJointRevolute>();
         }
     }
 
     public void Publish()
     {
-        var sourceDestinationMessage = new NiryoMoveitJointsMsg();
+        var sourceDestinationMessage = new MyCobotMoveitJointsMsg();
 
         for (var i = 0; i < k_NumRobotJoints; i++)
         {
@@ -57,18 +57,18 @@ public class SourceDestinationPublisher : MonoBehaviour
         }
 
         // Pick Pose
-        sourceDestinationMessage.pick_pose = new PoseMsg
+        sourceDestinationMessage.goal_pose = new PoseMsg
         {
             position = m_Target.transform.position.To<FLU>(),
             orientation = Quaternion.Euler(90, m_Target.transform.eulerAngles.y, 0).To<FLU>()
         };
 
-        // Place Pose
-        sourceDestinationMessage.place_pose = new PoseMsg
-        {
-            position = m_TargetPlacement.transform.position.To<FLU>(),
-            orientation = m_PickOrientation.To<FLU>()
-        };
+        // // Place Pose
+        // sourceDestinationMessage.place_pose = new PoseMsg
+        // {
+        //     position = m_TargetPlacement.transform.position.To<FLU>(),
+        //     orientation = m_PickOrientation.To<FLU>()
+        // };
 
         // Finally send the message to server_endpoint.py running in ROS
         m_Ros.Publish(m_TopicName, sourceDestinationMessage);
