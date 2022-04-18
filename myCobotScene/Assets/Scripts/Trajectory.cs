@@ -30,7 +30,7 @@ public class Trajectory : MonoBehaviour
 
      // Assures that the gripper is always positioned above the m_Target cube before grasping.
     readonly Quaternion pickOrientation = Quaternion.Euler(90, 90, 0);
-    readonly Vector3 pickPoseOffset = Vector3.up * 0.1f;
+    readonly Vector3 pickPoseOffset = Vector3.up * 0.15f;
 
     // 変数 - Variables
     public ArticulationBody[] jointArticulationBodies; // 関節 - joints
