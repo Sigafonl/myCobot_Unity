@@ -88,22 +88,17 @@ public class Trajectory : MonoBehaviour
 
         // 関節の角度の指定 - Specifying the angle of the joint
         request.joints_input = CurrentJointConfig();
-
     
-        // request.joints_input.goal_pose = new PoseMsg
-        // {
-        //     position = this.goal.transform.position.To<FLU>(),
-        //     orientation = pickOrientation.To<FLU>()
-        // };
-        
         // ゴール姿勢の指定 - Designation of goal posture
         // Pick Pose
         request.goal_pose = new PoseMsg
         {
-            position = (target.transform.position + pickPoseOffset).To<FLU>(),
+            //(x, y + offset, z)
+            position = (target.transform.position + pickPoseOffset).To<FLU>(), 
             
             // The hardcoded x/z angles assure that the gripper is always positioned above the target cube before grasping.
             orientation = Quaternion.Euler(90, target.transform.eulerAngles.y, 0).To<FLU>()
+            // orientation = Quaternion.Euler(90, 90, 0).To<FLU>()
         };
 
         Debug.Log("Target Object (xyz): " + round(target.transform.position.x) +  ", " + round(target.transform.position.y) +  ", " + round(target.transform.position.z));
