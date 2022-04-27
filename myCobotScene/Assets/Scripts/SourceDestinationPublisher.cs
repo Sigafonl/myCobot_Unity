@@ -18,6 +18,10 @@ public class SourceDestinationPublisher : MonoBehaviour
     string m_TopicName = "/mycobot_joints";
 
     [SerializeField]
+    GameObject joint;
+    public GameObject Joint { get => joint; set => joint = value; }
+
+    [SerializeField]
     GameObject m_MyCobot;
     [SerializeField]
     GameObject m_Target;
@@ -62,6 +66,15 @@ public class SourceDestinationPublisher : MonoBehaviour
             position = m_Target.transform.position.To<FLU>(),
             orientation = Quaternion.Euler(90, m_Target.transform.eulerAngles.y, 0).To<FLU>()
         };
+
+        //So a Unity (x,y,z) coordinate is equivalent to the ROS (z,-x,y) coordinate.
+
+        Vector3 position = joint.transform.position;
+        Vector3 rospose = new Vector3(position.z, -position.x, position.y);
+
+        Debug.Log("\nEnd effector pose (in Unity): " + position);
+        
+        Debug.Log("End effector pose (in ROS): " + rospose);
 
         // // Place Pose
         // sourceDestinationMessage.place_pose = new PoseMsg
