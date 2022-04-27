@@ -70,7 +70,7 @@ public class SourceDestinationPublisher : MonoBehaviour
         //So a Unity (x,y,z) coordinate is equivalent to the ROS (z,-x,y) coordinate.
 
         Vector3 position = joint.transform.position;
-        Vector3 rospose = new Vector3(position.z, -position.x, position.y);
+        Vector3 rospose = new Vector3(position.z, position.x, position.y);
 
         Debug.Log("\nEnd effector pose (in Unity): " + position);
         

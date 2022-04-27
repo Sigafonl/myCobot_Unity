@@ -94,7 +94,7 @@ public class Trajectory : MonoBehaviour
         request.goal_pose = new PoseMsg
         {
             //(x, y + offset, z)
-            position = (target.transform.position).To<FLU>(), 
+            position = (target.transform.position).To<RUF>(), 
             
             // The hardcoded x/z angles assure that the gripper is always positioned above the target cube before grasping.
             orientation = Quaternion.Euler(90, target.transform.eulerAngles.y, 0).To<FLU>()
