@@ -63,7 +63,7 @@ public class SourceDestinationPublisher : MonoBehaviour
         // Pick Pose
         sourceDestinationMessage.goal_pose = new PoseMsg
         {
-            position = m_Target.transform.position.To<FLU>(),
+            position = (m_Target.transform.position).To<RUF>(),
             orientation = Quaternion.Euler(90, m_Target.transform.eulerAngles.y, 0).To<FLU>()
         };
 
